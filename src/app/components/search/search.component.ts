@@ -13,7 +13,7 @@ export class SearchComponent {
 
   search(term: string) {
     this.searchService.getArtist(term).subscribe((data: any) => {
-      this.artists = data.artists.items;
+      this.artists = data;
     })
   }
 }
