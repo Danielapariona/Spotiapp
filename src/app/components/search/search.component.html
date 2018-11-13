@@ -3,7 +3,7 @@
     <input #term type="text" (keyup) = "search(term.value)" class="form-control" placeholder="Buscar artista ...">
   </div>
 </div>
-<app-loading *ngIf="loading" class="m-5"></app-loading>
+<app-loading *ngIf="loading" class="mt-5"></app-loading>
 <app-cards
   [items]="artists"
   *ngIf="!loading"
