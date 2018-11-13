@@ -6,13 +6,22 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class SpotifyService {
-
+  a: string;
   constructor(private http: HttpClient) { }
 
+  getToken() {
+    const URL = 'https://spotify-get-token.herokuapp.com/spotify/90e10407502d4ebc9b54e8d1fdf50579/cc032fb1984748d0b1e5a5b7ba1145e8';
+    this.http.get(URL).subscribe((data: any) => {
+      localStorage.setItem('token', data.access_token);
+    });
+  }
+
   getQuery(query: string) {
+    this.getToken();
+    const token = localStorage.getItem('token');
     const url = `https://api.spotify.com/v1/${query}`;
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer  BQBd6Kn65QWlxOeQCva10qe_7QjDLV1kX19WbaEkXNMCtbO1LtSF5JCuSEbZDXSjSmoUiMPrkeojfZ9hT20'
+      'Authorization': `Bearer ${token}`
     });
     return this.http.get(url, { headers });
   }
