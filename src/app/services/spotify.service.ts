@@ -6,19 +6,18 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class SpotifyService {
-  a: string;
   constructor(private http: HttpClient) { }
 
   getToken() {
     const URL = 'https://spotify-get-token.herokuapp.com/spotify/90e10407502d4ebc9b54e8d1fdf50579/cc032fb1984748d0b1e5a5b7ba1145e8';
-    this.http.get(URL).subscribe((data: any) => {
-      localStorage.setItem('token', data.access_token);
-    });
+    return this.http.get(URL);
   }
 
   getQuery(query: string) {
-    this.getToken();
+    // this.getToken();
     const token = localStorage.getItem('token');
+    console.log(token);
+
     const url = `https://api.spotify.com/v1/${query}`;
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -42,6 +41,6 @@ export class SpotifyService {
 
   getTopTracks(id: string) {
     return this.getQuery(`artists/${id}/top-tracks?country=us`)
-                .pipe( map( data => data['tracks']))
+                .pipe( map( data => data['tracks']));
   }
 }

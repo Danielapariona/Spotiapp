@@ -16,14 +16,18 @@ export class HomeComponent {
   constructor(private spotify: SpotifyService) {
     this.loading = true;
     this.show = false;
-    this.spotify.getNewReleases().subscribe(( data: any ) => {
-      this.newSongs = data;
-      this.loading = false;
-    }, errorService => {
-      this.loading = false;
-      this.show = true;
-      this.message = errorService.error.error.message;
+    this.spotify.getToken().subscribe((token: any) => {
+      localStorage.setItem('token', token.access_token);
+      setTimeout(() => {
+        this.spotify.getNewReleases().subscribe(( data: any ) => {
+          this.newSongs = data;
+          this.loading = false;
+        }, errorService => {
+          this.loading = false;
+          this.show = true;
+          this.message = errorService.error.error.message;
+        });
+      }, 300);
     });
   }
-
 }
